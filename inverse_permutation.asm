@@ -10,13 +10,12 @@ global inverse_permutation
 ;       rdi - wartość n
 ;       rsi - wskaźnik do tablicy p.
 inverse_permutation:
-        mov     eax, 1 ; Ustawienie wyniku na 1.
-        mov     r10, VAL_MASK ; Załadowanie stałych
-        mov     r11, MEM_MASK ; do rejestrów.
+        xor     eax, eax ; Ustawienie wyniku na 0.
+        mov     r10d, VAL_MASK ; Załadowanie stałych
+        mov     r11d, MEM_MASK ; do rejestrów.
         test    rdi, rdi
         jz      .exit0 ; Sprawdzenie, czy n = 0.
-        mov     rdx, r11
-        cmp     rdi, rdx
+        cmp     rdi, r11
         ja      .exit0 ; Sprawdzenie, czy n > INT_MAX + 1.
         dec     rdi ; Zmniejszenie n o 1, dzięki czemu n <= INT_MAX.
         mov     edx, edi ; W edx znajduje się zmienna i = n - 1.
@@ -74,6 +73,7 @@ inverse_permutation:
         je      .exit0
         jmp     .rollback_loop
 .exit0:
-        xor     eax, eax ; Ustawienie wyniku na 0.
+        ret
 .exit1:
+        inc     eax ; Ustawienie wyniku na 1.
         ret
